@@ -1,4 +1,4 @@
-# AI Viet Nam — Face Re-Identification System
+# Hệ thống nhận diện khuôn mặt thời gian thực
 
 Hệ thống nhận diện khuôn mặt thời gian thực kết hợp **Desktop GUI**, **REST API**, **PostgreSQL** và **React Dashboard**.
 
