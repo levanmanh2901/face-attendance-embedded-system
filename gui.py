@@ -392,7 +392,7 @@ class FaceItemWidget(QWidget):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("FaceID Management System - AI VIET NAM")
+        self.setWindowTitle("UIT AI Face Attendance System")
         self.setGeometry(100, 100, 1280, 800)
         
         self.camera_source = "0"
@@ -428,7 +428,7 @@ class MainWindow(QMainWindow):
         header.setStyleSheet("background-color: #385723; color: white;")
         header.setFixedHeight(50)
         header_layout = QHBoxLayout(header)
-        title = QLabel("AI VIET NAM FACE ID")
+        title = QLabel("UIT AI Face Attendance System")
         title.setStyleSheet("font-size: 16pt; font-weight: bold; letter-spacing: 2px;")
         
         _btn_style = """
