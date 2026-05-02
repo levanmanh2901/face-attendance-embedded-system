@@ -4,6 +4,7 @@ import os
 import random
 import time
 import warnings
+from typing import Optional
 
 import cv2
 import numpy as np
@@ -209,8 +210,8 @@ def main(params: argparse.Namespace) -> None:
     face_db = build_face_database(detector, recognizer, params, force_update=params.update_db)
     colors: dict[str, tuple[int, int, int]] = {}
 
-    cap: cv2.VideoCapture | None = None
-    out: cv2.VideoWriter | None = None
+    cap: Optional[cv2.VideoCapture] = None
+    out: Optional[cv2.VideoWriter] = None
     try:
         source = _resolve_source(params.source)
         cap = cv2.VideoCapture(source)

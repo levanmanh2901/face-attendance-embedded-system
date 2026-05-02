@@ -1,5 +1,5 @@
 import logging
-from typing import Tuple
+from typing import Optional, Tuple
 
 import cv2
 import numpy as np
@@ -163,7 +163,7 @@ class SCRFD:
 
     def detect(
         self, image: np.ndarray, max_num: int = 0, metric: str = "max"
-    ) -> Tuple[np.ndarray, np.ndarray | None]:
+    ) -> Tuple[np.ndarray, Optional[np.ndarray]]:
         """Detect faces in an image.
 
         Args:

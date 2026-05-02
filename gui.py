@@ -10,6 +10,7 @@ import threading
 import traceback
 import websockets
 import numpy as np
+from typing import Optional
 
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
@@ -645,7 +646,7 @@ class MainWindow(QMainWindow):
         self.video_label.setPixmap(pixmap)
 
     @staticmethod
-    def _encode_face(face_img_rgb: np.ndarray) -> bytes | None:
+    def _encode_face(face_img_rgb: np.ndarray) -> Optional[bytes]:
         """Encode RGB face crop to JPEG bytes (convert to BGR first)."""
         try:
             face_bgr = cv2.cvtColor(face_img_rgb, cv2.COLOR_RGB2BGR)
@@ -654,7 +655,7 @@ class MainWindow(QMainWindow):
         except Exception:
             return None
 
-    def _log_attendance(self, name: str, similarity: float, face_bytes: bytes | None = None):
+    def _log_attendance(self, name: str, similarity: float, face_bytes: Optional[bytes] = None):
         try:
             files = {'image': ('face.jpg', face_bytes, 'image/jpeg')} if face_bytes else {}
             data = {'name': name, 'similarity': str(float(similarity))}
@@ -662,7 +663,7 @@ class MainWindow(QMainWindow):
         except Exception:
             pass
 
-    def _log_unknown(self, face_bytes: bytes | None = None):
+    def _log_unknown(self, face_bytes: Optional[bytes] = None):
         try:
             files = {'image': ('face.jpg', face_bytes, 'image/jpeg')} if face_bytes else {}
             requests.post(f"{API_BASE_URL}/unknown/log", files=files, timeout=5)

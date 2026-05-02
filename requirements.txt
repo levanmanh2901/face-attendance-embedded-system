@@ -1,5 +1,5 @@
 onnx
-onnxruntime-gpu        # use onnxruntime-gpu instead if CUDA is available
+onnxruntime
 opencv-python
 numpy
 scikit-image

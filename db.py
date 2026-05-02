@@ -3,6 +3,7 @@ db.py — asyncpg connection pool + CRUD helpers for Face Re-ID API
 """
 import os
 import logging
+from typing import Optional
 import asyncpg
 
 logger = logging.getLogger("db")
@@ -12,7 +13,7 @@ DATABASE_URL = os.getenv(
     "postgresql://faceid_user:faceid_pass@localhost:5432/faceid_db"
 )
 
-_pool: asyncpg.Pool | None = None
+_pool: Optional[asyncpg.Pool] = None
 
 
 async def init_pool() -> None:
@@ -48,7 +49,7 @@ def _pool_ok() -> bool:
 # Attendance logging
 # ─────────────────────────────────────────────
 
-async def log_attendance(name: str, similarity: float, image_path: str | None = None) -> int | None:
+async def log_attendance(name: str, similarity: float, image_path: Optional[str] = None) -> Optional[int]:
     """Insert attendance log. Returns the new row id."""
     if not _pool_ok():
         return None
@@ -64,7 +65,7 @@ async def log_attendance(name: str, similarity: float, image_path: str | None = 
         return None
 
 
-async def log_unknown(image_path: str | None = None) -> int | None:
+async def log_unknown(image_path: Optional[str] = None) -> Optional[int]:
     """Insert unknown log. Returns the new row id."""
     if not _pool_ok():
         return None
@@ -84,8 +85,8 @@ async def log_unknown(image_path: str | None = None) -> int | None:
 # Query attendance
 # ─────────────────────────────────────────────
 
-async def get_attendance(limit: int = 200, name: str | None = None,
-                         date_from: str | None = None, date_to: str | None = None):
+async def get_attendance(limit: int = 200, name: Optional[str] = None,
+                         date_from: Optional[str] = None, date_to: Optional[str] = None):
     if not _pool_ok():
         return []
     try:
@@ -109,8 +110,8 @@ async def get_attendance(limit: int = 200, name: str | None = None,
         return []
 
 
-async def get_unknowns(limit: int = 200, date_from: str | None = None,
-                       date_to: str | None = None):
+async def get_unknowns(limit: int = 200, date_from: Optional[str] = None,
+                       date_to: Optional[str] = None):
     if not _pool_ok():
         return []
     try:
