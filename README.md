@@ -51,23 +51,8 @@ git clone git@github.com:NguyenDinhTiem/face-reidentification.git
 cd face-reidentification
 ```
 
-### 2. Tải model weights
 
-Tải về và đặt vào thư mục `weights/`:
-
-| Model | Link | Dung lượng |
-|---|---|---|
-| SCRFD 10G (detection) | [det_10g.onnx](https://github.com/yakhyo/face-reidentification/releases/download/v0.0.1/det_10g.onnx) | 16.1 MB |
-| SCRFD 500M (nhẹ) | [det_500m.onnx](https://github.com/yakhyo/face-reidentification/releases/download/v0.0.1/det_500m.onnx) | 2.4 MB |
-| ArcFace MobileFace | [w600k_mbf.onnx](https://github.com/yakhyo/face-reidentification/releases/download/v0.0.1/w600k_mbf.onnx) | 13 MB |
-| ArcFace ResNet-50 | [w600k_r50.onnx](https://github.com/yakhyo/face-reidentification/releases/download/v0.0.1/w600k_r50.onnx) | 166 MB |
-
-```bash
-# Linux/Mac — tải tự động
-sh download.sh
-```
-
-### 3. Thêm ảnh khuôn mặt cần nhận diện
+### 2. Thêm ảnh khuôn mặt cần nhận diện
 
 Đặt ảnh khuôn mặt vào thư mục `assets/faces/`. **Tên file = tên người**.
 
@@ -80,7 +65,7 @@ assets/faces/
 
 > Mỗi người chỉ cần 1 ảnh, chụp rõ mặt, ánh sáng tốt.
 
-### 4. Khởi động PostgreSQL (Docker)
+### 3. Khởi động PostgreSQL (Docker)
 
 ```bash
 docker compose up -d
@@ -91,7 +76,7 @@ Kiểm tra DB đã sẵn sàng:
 docker compose ps
 ```
 
-### 5. Cài Python dependencies
+### 4. Cài Python dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -113,7 +98,7 @@ pip install -r requirements.txt
 >
 > Nếu cài mới trên Windows, nên dùng Python 3.11 cho môi trường dự án để giảm rủi ro lệch package.
 
-### 6. Chạy API backend
+### 5. Chạy API backend
 
 ```bash
 python api.py
@@ -121,7 +106,7 @@ python api.py
 
 API khởi động tại `http://localhost:8000`. Swagger docs: `http://localhost:8000/docs`
 
-### 7. Chạy GUI desktop
+### 6. Chạy GUI desktop
 
 ```bash
 python gui.py
@@ -130,7 +115,7 @@ python gui.py
 - Nhấn **▶ Start** để bật camera và bắt đầu nhận diện
 - Nhấn **⚙ Settings** để đổi model / nguồn camera / ngưỡng
 
-### 8. Chạy React Dashboard (tuỳ chọn)
+### 7. Chạy React Dashboard (tuỳ chọn)
 
 ```bash
 cd web
