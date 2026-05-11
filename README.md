@@ -40,33 +40,53 @@ The system supports real-time facial recognition from camera streams, automatic 
 - Webcam / IP camera support
 - Bounding box + name visualization
 - Multi-face detection support
+---
 📋 Attendance Management
 - Automatic attendance logging
 - PostgreSQL attendance storage
 - Duplicate attendance prevention
 - Check-in time tracking
-- 
 ---
-
 🖥️ Desktop GUI (PyQt6)
 - Live camera feed
 - Start / Stop inference
 - Camera settings
 - Realtime monitoring
-  
-## Cài đặt
+---
+🌐 REST API + WebSocket
+- FastAPI backend
+- REST endpoints
+- WebSocket realtime streaming
+- Swagger API documentation
+---
+📊 React Dashboard
+- Attendance history viewer
+- Dashboard statistics
+- Log management
+- Realtime monitoring interface
+---
+# ⚙️ System Requirements
+
+| Component | Version |
+|---|---|
+| Python | 3.10+ |
+| Node.js | 18+ |
+| Docker Desktop | Latest |
+| PostgreSQL | 15+ |
+| GPU (optional) | CUDA 11.8+ |
+---
+## ⚙️ Setting
 
 ### 1. Clone repository
 
 ```bash
-git clone git@github.com:NguyenDinhTiem/face-reidentification.git
-cd face-reidentification
+git clone https://github.com/levanmanh2901/face-attendance-embedded-system.git
+cd face-attendance-embedded-system
 ```
 
+### 2. Add Face Images for Recognition
 
-### 2. Thêm ảnh khuôn mặt cần nhận diện
-
-Đặt ảnh khuôn mặt vào thư mục `assets/faces/`. **Tên file = tên người**.
+Place face images inside the `assets/faces/` directory. **Filename = person's name**.
 
 ```
 assets/faces/
@@ -75,32 +95,31 @@ assets/faces/
 └── ...
 ```
 
-> Mỗi người chỉ cần 1 ảnh, chụp rõ mặt, ánh sáng tốt.
+> Each person only needs one image with a clear face and good lighting conditions.
 
-### 3. Khởi động PostgreSQL (Docker)
+### 3. Start PostgreSQL (Docker)
 
 ```bash
 docker compose up -d
 ```
 
-Kiểm tra DB đã sẵn sàng:
+Check if the database is ready:
 ```bash
 docker compose ps
 ```
 
-### 4. Cài Python dependencies
-
+### 4. Install Python Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-> **GPU:** Đổi `onnxruntime-gpu` thay `onnxruntime` trong `requirements.txt` nếu có CUDA.
+> **GPU:** Replace `onnxruntime` with `onnxruntime-gpu` in `requirements.txt` if CUDA is available.
 >
-> **Windows + Conda:** Nên cài bằng `python -m pip install -r requirements.txt` sau khi `conda activate <env>`, tránh dùng `pip --user`.
+> **Windows + Conda:** It is recommended to install dependencies using `python -m pip install -r requirements.txt` after running `conda activate <env>`, instead of using `pip --user`.
 >
-> **Quan trọng:** Nếu Python đang ưu tiên package trong `C:\Users\<user>\AppData\Roaming\Python\...` thì `onnxruntime-gpu` trong conda env có thể bị che bởi bản `onnxruntime` CPU, khiến model chỉ chạy bằng CPU dù máy có CUDA.
+> **Important:** If Python prioritizes packages inside `C:\Users\<user>\AppData\Roaming\Python\...`, the `onnxruntime-gpu` package inside the Conda environment may be overridden by the CPU version of `onnxruntime`, causing the model to run on CPU even when CUDA is available.
 >
-> Có thể chặn hiện tượng này bằng cách:
+> You can prevent this issue by using:
 > ```bash
 > conda env config vars set -n <env> PYTHONNOUSERSITE=1
 > conda activate <env>
@@ -108,26 +127,28 @@ pip install -r requirements.txt
 > python -c "import onnxruntime as ort; print(ort.__file__); print(ort.get_available_providers())"
 > ```
 >
-> Nếu cài mới trên Windows, nên dùng Python 3.11 cho môi trường dự án để giảm rủi ro lệch package.
+> For fresh installations on Windows, it is recommended to use Python 3.11 for the project environment to reduce package compatibility issues.
 
-### 5. Chạy API backend
+### 5. Run the API Backend
 
 ```bash
 python api.py
 ```
 
-API khởi động tại `http://localhost:8000`. Swagger docs: `http://localhost:8000/docs`
+The API will start at `http://localhost:8000`.
 
-### 6. Chạy GUI desktop
+Swagger documentation: `http://localhost:8000/docs`
+
+### 6. Run the Desktop GUI
 
 ```bash
 python gui.py
 ```
 
-- Nhấn **▶ Start** để bật camera và bắt đầu nhận diện
-- Nhấn **⚙ Settings** để đổi model / nguồn camera / ngưỡng
+- Click **▶ Start** to enable the camera and begin face recognition
+- Click **⚙ Settings** to change the model, camera source, or recognition threshold
 
-### 7. Chạy React Dashboard (tuỳ chọn)
+### 7. Run the React Dashboard (Optional)
 
 ```bash
 cd web
@@ -135,27 +156,26 @@ npm install
 npm run dev
 ```
 
-Mở trình duyệt: `http://localhost:5173`
-
+Open your browser at: `http://localhost:5173`
 ---
 
-## Cấu trúc dự án
+## Project Structure
 
 ```
 face-reidentification/
 ├── api.py                 # FastAPI backend (REST + WebSocket)
 ├── gui.py                 # Desktop GUI (PyQt6)
 ├── db.py                  # PostgreSQL helpers (asyncpg)
-├── main.py                # CLI entry point (không dùng GUI)
+├── main.py                # CLI entry point (without GUI)
 │
-├── models/                # SCRFD, ArcFace model wrappers
+├── models/                # SCRFD and ArcFace model wrappers
 ├── database/              # FAISS database implementation
-├── utils/                 # Logging, helpers
+├── utils/                 # Logging and helper utilities
 │
-├── weights/               # Model weights (.onnx) — không upload lên git
+├── weights/               # Model weights (.onnx) — excluded from Git
 ├── assets/
-│   ├── faces/             # Ảnh khuôn mặt cần nhận diện
-│   └── captures/          # Ảnh crop tự động lưu — không upload lên git
+│   ├── faces/             # Face images for recognition
+│   └── captures/          # Automatically saved cropped images — excluded from Git
 │
 ├── web/                   # React dashboard (Vite)
 │   ├── src/
@@ -165,15 +185,15 @@ face-reidentification/
 │   └── package.json
 │
 ├── init.sql               # PostgreSQL schema
-├── docker-compose.yml     # PostgreSQL container
+├── docker-compose.yml     # PostgreSQL container configuration
 └── requirements.txt
 ```
 
 ---
 
-## Thông tin kết nối PostgreSQL
+## PostgreSQL Connection Information
 
-| Tham số | Giá trị mặc định |
+| Parameter | Default Value |
 |---|---|
 | Host | `localhost` |
 | Port | `5432` |
@@ -181,52 +201,66 @@ face-reidentification/
 | Username | `faceid_user` |
 | Password | `faceid_pass` |
 
-Đổi thông tin kết nối qua biến môi trường:
+Override the database connection using an environment variable:
+
 ```bash
 DATABASE_URL=postgresql://user:pass@host:5432/dbname python api.py
 ```
-
 ---
 
 ## API Endpoints
 
-| Method | Endpoint | Mô tả |
+| Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/settings` | Lấy cấu hình hiện tại |
-| `POST` | `/api/settings` | Cập nhật cấu hình |
-| `POST` | `/api/infer/start` | Bật inference |
-| `POST` | `/api/infer/stop` | Tắt inference |
-| `GET` | `/api/attendance` | Lịch sử điểm danh |
-| `GET` | `/api/unknowns` | Log người lạ |
-| `GET` | `/api/stats` | Thống kê tổng quan |
-| `POST` | `/api/attendance/log` | Ghi log điểm danh (multipart) |
-| `POST` | `/api/unknown/log` | Ghi log người lạ (multipart) |
-| `WS` | `/ws/infer` | WebSocket nhận diện realtime |
+| `GET` | `/api/settings` | Get current configuration |
+| `POST` | `/api/settings` | Update configuration |
+| `POST` | `/api/infer/start` | Start inference |
+| `POST` | `/api/infer/stop` | Stop inference |
+| `GET` | `/api/attendance` | Attendance history |
+| `GET` | `/api/unknowns` | Unknown person logs |
+| `GET` | `/api/stats` | Overall statistics |
+| `POST` | `/api/attendance/log` | Save attendance log (multipart) |
+| `POST` | `/api/unknown/log` | Save unknown person log (multipart) |
+| `WS` | `/ws/infer` | Realtime recognition WebSocket |
 
 ---
 
 ## Troubleshooting
 
-**Camera không mở được:**
-- Kiểm tra nguồn camera trong Settings (0 = webcam mặc định, hoặc dùng URL RTSP)
+**Camera Cannot Be Opened:**
+- Check the camera source in Settings (`0` = default webcam, or use an RTSP URL)
 
-**Lỗi ONNX Runtime / CUDA:**
-- Dùng `onnxruntime` (CPU) nếu không có GPU hoặc CUDA chưa cài đúng
-- Xem log lỗi tại `app.log`
-- Nếu log không báo lỗi nhưng model vẫn chỉ chạy CPU, kiểm tra runtime đang import từ đâu:
+**ONNX Runtime / CUDA Issues:**
+- Use `onnxruntime` (CPU version) if no GPU is available or CUDA is not properly installed
+- Check error logs inside `app.log`
+- If there are no visible errors but the model still runs on CPU, verify which runtime is being imported:
+
 ```bash
 python -c "import onnxruntime as ort; print(ort.__file__); print(ort.get_available_providers())"
 ```
-- Nếu kết quả nằm trong `AppData\Roaming\Python\...` thay vì conda env, môi trường đang bị lẫn `user-site package`
-- Cách xử lý ổn định nhất là tạo env mới, bật `PYTHONNOUSERSITE=1`, rồi cài lại dependency bằng `python -m pip`
 
-**Không kết nối được PostgreSQL:**
-- Chắc chắn Docker đang chạy: `docker compose up -d`
-- Kiểm tra: `docker compose ps`
+- If the result points to `AppData\Roaming\Python\...` instead of the Conda environment, the environment is being overridden by `user-site packages`
+- The most stable solution is to create a new environment, enable `PYTHONNOUSERSITE=1`, and reinstall dependencies using `python -m pip`
 
-**Web không hiển thị ảnh:**
-- Đảm bảo Vite dev server đang chạy (`npm run dev` trong thư mục `web/`)
-- Ảnh được serve qua proxy `/captures` → FastAPI
+---
+**PostgreSQL Connection Failed:**
+- Make sure Docker is running:
+
+```bash
+docker compose up -d
+```
+
+- Check running containers:
+
+```bash
+docker compose ps
+```
+
+---
+
+**Web Dashboard Cannot Display Images:**
+- Ensure the Vite development server is running (`npm run dev` inside the `web/` directory)
+- Images are served through the `/captures` proxy → FastAPI
 
 ---
 
@@ -236,3 +270,13 @@ python -c "import onnxruntime as ort; print(ort.__file__); print(ort.get_availab
 - [ArcFace: Deep Face Recognition](https://github.com/deepinsight/insightface/tree/master/recognition/arcface_torch)
 - [YOLOFace training guide](https://drive.google.com/drive/folders/1Df3xxfUsWDbMfqwTgOE7q2CeXakW4V8D?usp=sharing)
 - [FAISS: Facebook AI Similarity Search](https://github.com/facebookresearch/faiss)
+
+## 🚀 Future Improvements
+- Face anti-spoofing
+- Edge AI optimization
+- ESP32 / Raspberry Pi integration
+- Multi-camera management
+- AI analytics dashboard
+- Face mask recognition
+- Mobile application
+- AI Agent monitoring assistant
