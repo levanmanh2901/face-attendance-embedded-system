@@ -1,6 +1,7 @@
-# Hệ thống nhận diện khuôn mặt thời gian thực
+# 🚀 Face Attendance Embedded System
 
-Hệ thống nhận diện khuôn mặt thời gian thực kết hợp **Desktop GUI**, **REST API**, **PostgreSQL** và **React Dashboard**.
+A real-time face attendance system built with **Desktop GUI**, **REST API**, **PostgreSQL** và **React Dashboard**.
+The system supports real-time facial recognition from camera streams, automatic attendance logging, web-based monitoring dashboard, and REST API/WebSocket communication.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-green)
@@ -9,23 +10,23 @@ Hệ thống nhận diện khuôn mặt thời gian thực kết hợp **Desktop
 
 ---
 
-## Kiến trúc hệ thống
+## 🏗️ System Architecture
 
 ```
 ┌──────────────┐   WebSocket    ┌──────────────────┐
-│  GUI (PyQt6) │ ─────────────► │  API (FastAPI)    │
-│  Camera Feed │ ◄───────────── │  SCRFD + ArcFace  │
-└──────────────┘   bbox/names   │  FAISS Search     │
+│  GUI (PyQt6) │ ─────────────► │  API (FastAPI)   │
+│  Camera Feed │ ◄───────────── │  Face Recognition│
+└──────────────┘   bbox/names   │  FAISS Search    │
                                 └────────┬─────────┘
                                          │ asyncpg
                                 ┌────────▼─────────┐
-                                │   PostgreSQL DB   │
-                                │  (Docker)         │
+                                │   PostgreSQL DB  │
+                                │  (Docker)        │
                                 └────────┬─────────┘
                                          │ REST API
                                 ┌────────▼─────────┐
-                                │  React Dashboard  │
-                                │  localhost:5173    │
+                                │  React Dashboard │
+                                │  localhost:5173  │
                                 └──────────────────┘
 ```
 
