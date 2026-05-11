@@ -1,6 +1,7 @@
 # 🚀 Face Attendance Embedded System
 
 A real-time face attendance system built with **Desktop GUI**, **REST API**, **PostgreSQL** và **React Dashboard**.
+
 The system supports real-time facial recognition from camera streams, automatic attendance logging, web-based monitoring dashboard, and REST API/WebSocket communication.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
