@@ -15,13 +15,13 @@ The system supports real-time facial recognition from camera streams, automatic 
 
 ```
 ┌──────────────┐   WebSocket    ┌──────────────────┐
-│  GUI (PyQt6) │ ─────────────► │  API (FastAPI)   │
-│  Camera Feed │ ◄───────────── │  Face Recognition│
-└──────────────┘   bbox/names   │  FAISS Search    │
+│  GUI (PyQt6) │ ─────────────► │ API (FastAPI)    │
+│  Camera Feed │ ◄───────────── │ Face Recognition │
+└──────────────┘   bbox/names   │ Attendance Logic │
                                 └────────┬─────────┘
                                          │ asyncpg
                                 ┌────────▼─────────┐
-                                │   PostgreSQL DB  │
+                                │  PostgreSQL DB   │
                                 │  (Docker)        │
                                 └────────┬─────────┘
                                          │ REST API
@@ -33,17 +33,27 @@ The system supports real-time facial recognition from camera streams, automatic 
 
 ---
 
-## Yêu cầu hệ thống
+## ✨ Main Features
 
-| Thành phần | Phiên bản |
-|---|---|
-| Python | 3.10+ |
-| Node.js | 18+ |
-| Docker Desktop | mới nhất |
-| GPU (tuỳ chọn) | CUDA 11.8+ |
-
+🎯 Realtime Face Recognition
+- Real-time facial recognition
+- Webcam / IP camera support
+- Bounding box + name visualization
+- Multi-face detection support
+📋 Attendance Management
+- Automatic attendance logging
+- PostgreSQL attendance storage
+- Duplicate attendance prevention
+- Check-in time tracking
+- 
 ---
 
+🖥️ Desktop GUI (PyQt6)
+- Live camera feed
+- Start / Stop inference
+- Camera settings
+- Realtime monitoring
+  
 ## Cài đặt
 
 ### 1. Clone repository
